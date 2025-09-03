@@ -96,7 +96,7 @@ export default function Home() {
             const priceFmt = new Intl.NumberFormat("en-IN", {
               style: "currency",
               currency: p.price.currency,
-            }).format(p.price.amount / 100);
+            }).format(p.price.amount);
             const low = p.stock < 5;
             return (
               <NavLink to={`/product/${p._id}`}

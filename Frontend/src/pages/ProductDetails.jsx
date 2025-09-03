@@ -28,12 +28,10 @@ export default function ProductDetails() {
         { withCredentials: true }
       );
 
-      console.log(order);
-
       // Step 2: Razorpay options
       const options = {
         key: "rzp_test_RD2xTcjiHfxSwK", // from .env (frontend can use only key_id)
-        amount: order.newPayment.price.amount * 100,
+        amount: order.newPayment.price.amount,
         currency: "INR",
         name: "My Company",
         description: "Test Transaction",
@@ -44,7 +42,7 @@ export default function ProductDetails() {
             response;
           console.log(razorpay_order_id, razorpay_order_id, razorpay_signature);
           try {
-            const hello = await axios.post(
+            await axios.post(
               "http://localhost:3000/api/payment/verify",
               {
                 razorpayOrderId: razorpay_order_id,
@@ -55,7 +53,7 @@ export default function ProductDetails() {
                 withCredentials: true,
               }
             );
-            console.log(hello);
+
             alert("Payment successful!");
           } catch (err) {
             alert("Payment verification failed!");
@@ -96,7 +94,7 @@ export default function ProductDetails() {
   const priceFmt = new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: product.price.currency,
-  }).format(product.price.amount / 100);
+  }).format(product.price.amount);
   const activeImage = product.images?.[activeIndex];
   const out = product.stock <= 0;
 
